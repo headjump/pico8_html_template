@@ -22,9 +22,9 @@ The existing HTML-export however, by the time of writing, doesn't come with touc
 
 The template file is a single HTML file with inline styles, javascripts and svg-images.
 
-This is so you don't need additional tools to build the code and so you don't have to link a lot of files. I tried my best to provide a good code scructure and comments - so it should be easy to follow what is going on.
+This is so you don't need additional tools to build the code or link a lot of files. I tried my best to provide a good code scructure and comments - so it should be easy to follow what is going on.
 
-The only files you have to change are 'game.js' and 'icon.png'
+The only files you have to change are 'game.js' and 'icon.png' and add your game name to 'index.html'.
 
 ## Current limitations
 
@@ -39,5 +39,3 @@ Why? - I want the touch controls to feel "perfect", but for vertical movement I 
 If your game only uses a single button, you should only display a single button for the touch controls. Why confuse the user?
 
 If your game is still under heavy development and you frequently update it, you should remove the link to the manifest-file in the html-tag until you are "done". Otherwise you have to update the manifest each time you want to test your game.
-
-When you update the game or HTML site, you also have to update the manifest file. It is enough to habe a comment somewhere that you change, e.g '#1' to '#2' and so on. Keep in mind: the updated files are sometimes loaded in the background while you have the webapp open - so don't panic if you still see an older version of your game. Waiting a little and reopening the webapp usually works.
