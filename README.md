@@ -28,7 +28,7 @@ The only files you have to change are 'game.js' and 'icon.png'
 
 ## Current limitations
 
-The HTML template only supports the horizontal axis, only left and right. No up and down.
+The HTML template only supports the horizontal axis, only left and right. **No up and down.**
 
 You will see in the embedded JS that the y-position for the touch input is already captured but not yet used for vertical input.
 
