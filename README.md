@@ -6,6 +6,8 @@
 
 [PICO8 demo game!](http://headjump.de/g/rockkid)
 
+[<img src="http://headjump.github.io/headjump_website/g/rockkid_demo.jpg">](http://headjump.de/g/rockkid)
+
 Open it on your smartphone, it works great :)
 
 You'll see that the demo only displays a single button. The HTML template has two buttons, though.
