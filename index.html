@@ -1,0 +1,315 @@
+<html manifest="game.manifest">                                          <!-- <= LINK TO MANIFEST (to cache files for offline-access= -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Game Title">          <!-- <= WEBAPP TITLE -->
+  <link rel="apple-touch-icon" href="icon.png">                          <!-- <= YOUR ICON -->
+  <link rel="icon" href="icon.png">                                      <!-- <= YOUR ICON -->
+  <title>Game Title</title>                                              <!-- <= WEBSITE TITLE -->
+  <meta name="description" content="Game description">                   <!-- <= SITE DESCRIPTION as seen by web-search-engines -->
+
+  <style TYPE="text/css">
+    body { font-family: Verdana, Arial, sans-serif; padding: 0; margin: 0; outline: none; background: #222; overflow: hidden; }
+
+    /* ------ POSITION GAME-CANVAS ------ */
+    canvas#canvas {
+      width: 512px; height: 512px;                /* max game size: 512px */
+      image-rendering: optimizeSpeed;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: optimize-contrast;
+      image-rendering: pixelated;
+      -ms-interpolation-mode: nearest-neighbor;
+      border: 0;
+    }
+    @media screen and (max-width: 512px) {        /* game shrinks to fit screen on smaller screens */
+      canvas#canvas { width: 100%; height: auto; } }
+    .canvas-wrapper { text-align: center; }
+    .canvas-wrapper canvas { margin: 0 auto; }    /* center game */
+    @media screen and (min-height: 700px) {       /* game has top-margin on high screens */
+      .canvas-wrapper { margin-top: 80px; } }
+    @media screen and (min-height: 880px) {       /* game has more top-margin on higher screens */
+      .canvas-wrapper { margin-top: 180px; } }
+
+
+    /* ------ pico8 control buttons [reset] [pause] [mute] ------ */
+    .pico8_btns { text-align: center; }
+    .pico8_el { width:82px; display:inline-block; margin: 1px; padding: 4px; text-align: center; color:#fff; background-color:#777; font-size: 9pt; cursor: pointer; }
+    .pico8_el a{ text-decoration: none; color:#fff; }
+    .pico8_el:hover{ background-color:#aaa; }
+    .pico8_el:link{ background-color:#aaa; }
+
+    /* ------ HELPER CLASSES FOR TOUCH ELEMENTS ------ */
+    .touch-not-supported .show-if-touch { display: none; }
+    .touch-supported .show-if-not-touch { display: none; }
+
+    /* ------ HELPER CLASSES FOR STANDALONE ELEMENTS ------ */
+    .not-standalone .show-if-standalone { display: none; }
+    .is-standalone .show-if-not-standalone { display: none; }
+  </style>
+
+</head>
+
+<body>
+
+<script type="text/javascript">
+  // ----------------- DISPLAY TOUCH CONTROLS? ----------------- %>
+  if(
+    window.location.href.indexOf("?touch") !== -1     // to test on not-touch devices: add "?touch" to the URL
+    ||window.location.href.indexOf("&touch") !== -1
+    || navigator.userAgent.match(/Android/i)
+    || navigator.userAgent.match(/webOS/i)
+    || navigator.userAgent.match(/iPhone/i)
+    || navigator.userAgent.match(/iPad/i)
+    || navigator.userAgent.match(/iPod/i)
+    || navigator.userAgent.match(/BlackBerry/i)
+    || navigator.userAgent.match(/Windows Phone/i)
+  ) {
+    document.body.className += " touch-supported";
+    window.TOUCH = true;
+  } else {
+    document.body.className += " touch-not-supported";
+  }
+
+  // ----------------- IS STANDALONE WEBAPP? ----------------- %>
+  if(
+    window.location.href.indexOf("?standalone") !== -1 // to test on not-standalone devices: add "?standalone" to the URL
+    || window.location.href.indexOf("&standalone") !== -1
+    || navigator.standalone
+  ) {
+    document.body.className += " is-standalone";
+    window.TOUCH = true;
+  } else {
+    document.body.className += " not-standalone";
+  }
+
+  // To test both TOUCH and STANDALONE, add "?touch&standalone" to the URL
+</script>
+
+<div class="canvas-wrapper">
+  <canvas class="emscripten" id="canvas" oncontextmenu="event.preventDefault()"></canvas>
+</div>
+
+<div>
+  <script type="text/javascript">
+    // ------ SETUP USED FOR PICO8 CART ------
+    var
+      canvas = document.getElementById("canvas"),
+      Module = {canvas: canvas};
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // ------ BLOCK CURSOR-KEYS FROM SCROLLING ------
+    var onKeyDown_blocker= function(event) {
+      event = event || window.event;
+      var o = document.activeElement;
+      if (!o || o == document.body || o.tagName == "canvas") {
+        if ([32, 37, 38, 39, 40].indexOf(event.keyCode) > -1) {
+          if (event.preventDefault) event.preventDefault();
+        }
+      }
+    };
+    document.addEventListener('keydown', onKeyDown_blocker, false);
+  </script>
+
+  <script async type="text/javascript" src="game.js"></script>       <!-- <= INCLUDES YOUR cart.js FILE -->
+
+
+  <!-- PICO8 CONTROL BUTTONS [reset] [pause] [fullscreen - not visible when using touch-control] [mute] -->
+  <div class="pico8_btns">
+    <span class="pico8_el" onclick="Module.pico8Reset();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dOwoAMQhE15A+rfc/3bZ7AlMnQfywCkKsfcgMM9ZP+QHtIn0vLeBAFduiFdQ/0DmvtR5LXJ6CPSXe2ZXcFNlTxFbemKrbZPs35XogeS9xeQr+anT6LzoOwEDwZJ7jwhXUnwkTTiDQ2Ja34AAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Reset" width=12 height=12/>
+      Reset
+    </span>
+    <span class="pico8_el" onclick="Module.pico8TogglePaused();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAPUlEQVR4Ae3doQ0AIAxEUWABLPtPh2WCq26DwFSU/JPNT166QSu/Hg86W9dwLte+diP7AwAAAAAAgD+A+jM2ZAgo84I0PgAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Pause" width=12 height=12/>
+      Pause
+    </span>
+    <span class="pico8_el show-if-not-touch" onclick="Module.requestFullScreen(true, false);">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dsQ1AIQhExfze1v2ns3UCrfgFhmgUUAoGgHscp21wX9BqaZoDojbB96OkDJKNcTN2BHTyYNYmoT2BlPL7BKgcPfHjAVXKKadkHOn9K1r16N0czN6a95N8mnA7Aq2fTZ3Af3UKmCSMazL8HwAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Fullscreen" width=12 height=12/>
+      Fullscreen
+    </span>
+    <span class="pico8_el" onclick="Module.pico8ToggleSound();">
+      <img
+        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAXklEQVR4Ae2doQ4AIQxD4YLH8v9fh+ULhjpxxSwLg2uyapr1JRu1iV5Z+1BGl4+xNpX38SYo2uRvYiT5LwEmt+ocgXVLrhPEgBiw8Q5w7/kueSkK+D2tJO4E/I3GrwkqQCBabEj/4QAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
+        alt="Toggle Sound" width=12 height=12/>
+      Sound
+    </span>
+  </div>
+</div>
+
+<!-- ASK USER TO SET THE SITE AS A STANDALONE-WEBAPP -->
+
+<div class="show-if-touch">
+  <div class="show-if-not-standalone">
+    <div class="addToHomescreen__hint">
+      Add this website to your homescreen for better performance and audio!
+    </div>
+  </div>
+</div>
+
+<style>
+  .addToHomescreen__hint {
+    font-size: .75em;
+    margin: .5em 2em;
+    text-align: center;
+    color: white;
+    font-style: italic;
+  }
+</style>
+
+<style>
+  .btns { position: fixed; bottom: 0; width: 100%; } /* wrapper for buttons - docks to bottom */
+  .btn { /* generic button style: prevent text selection on touch */
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
+    height: 90px;
+    line-height: 90px;
+    font-size: 35px;
+    font-weight: bold;
+    border: 2px solid #1D2B53;
+    color: #1D2B53;
+    text-align: center;
+    width: 20%;
+    max-width: 120px;
+  }
+  @media screen and (max-height: 640px) and (min-width: 500px) {  /* make canvas smaller for small screen-height to make room for touch-buttons */
+    canvas#canvas { max-width: 420px; height: auto; }
+    .btn { height: 65px; line-height: 65px; } }
+  @media screen and (max-height: 520px) {   /* less height on low screens */
+    .btn { height: 50px; line-height: 50px; } }
+  .btn--wide { width: 35%; max-width: 180px; }
+  .btn--extra-wide { width: 45%; max-width: 220px; }
+  .pull-left { float:left; }
+  .pull-right { float:right; }
+  #btn-leftRight { position: relative; }
+  .btn__leftArrowStyle, .btn__rightArrowStyle {
+    background: #1288D1;
+    position: absolute;
+    width: 50%;
+    height: 100%;
+  }
+  .btn__rightArrowStyle { right: 0; }
+  .btn svg { /* center SVGs in buttons */
+    position: absolute;
+    left: 50%; top: 50%;
+    margin-left: -15px; margin-top: -15px;
+  }
+  #btn-fire-x, #btn-fire-o { background-color: #1288D1; position: relative; }
+  .pressed_L .btn__leftArrowStyle,
+  .pressed_X #btn-fire-x,
+  .pressed_O #btn-fire-o,
+  .pressed_R .btn__rightArrowStyle {
+    background-color: #29ADFF; /* change color when pressed */
+  }
+  .pressed_L .btn__leftArrowStyle:after,
+  .pressed_X #btn-fire-x:after,
+  .pressed_O #btn-fire-o:after,
+  .pressed_R .btn__rightArrowStyle:after { /* add a top border to the button when pressed, so users really see it */
+    content: ""; width: 100%; height: 6px; position: absolute; margin-top: -5px; left: 0; background-color: #29ADFF; }
+  .clear{ clear:both; }
+</style>
+<div id="btns-wrapper" class="show-if-touch btns clear">
+  <div id="btns-markPressed"> <!-- gets classes for all pressed buttons: pressed_L, pressed_R, pressed_U, pressed_D, pressed_X, pressed_O -->
+    <div id="btn-leftRight" class="btn btn--extra-wide pull-left">
+      <div class="btn__leftArrowStyle">
+        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M22.536,0.47L3.207,15L22.536,29.53L22.536,0.47Z" style="fill:#222;"/></svg>
+      </div>
+      <div class="btn__rightArrowStyle">
+        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg>
+      </div>
+    </div>
+    <div id="btn-fire-o" class="btn pull-right">
+      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg>
+    </div>
+    <div id="btn-fire-x" class="btn pull-right">
+      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg>
+    </div>
+    <div class="clear"></div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  // --------- CREATE TOUCH BUTTONS ---------
+  //
+  //      [  <    >  ]       [ X ] [ O ]
+  //
+  // At the moment only left,right,x,o are supported!
+  //
+  // IMPORTANT FOR TESTING:
+  //   The buttons ONLY work with touch-events, so you can't test them
+  //   on a regular browser with your mouse.
+  //   Chrome allows for simulating touch-events in the developer-tools:
+  //   -> https://developers.google.com/web/tools/chrome-devtools/device-mode/
+  if(window.TOUCH) {
+    var
+      pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0], // <= the first will be updated by the touch-buttons
+      updatePressedClasses = (function() {
+        var target = document.getElementById("btns-markPressed");
+        return function() {
+          var classes="",pressed=pico8_buttons[0];
+          for(var key_string in KEY) {
+            if(KEY.hasOwnProperty(key_string) && ((pressed & KEY[key_string]) > 0)) classes+= " pressed_" + key_string;
+          }
+          target.className = classes;
+        };
+      }()),
+      KEY = { L: 1, R: 2, U: 4, D: 8, X: 16, O: 32 },
+      btnDown = function(key) { pico8_buttons[0] |= key; updatePressedClasses(); },
+      btnUp   = function(key) { pico8_buttons[0] &= ~key; updatePressedClasses(); },
+      btnAxis = function(active_keys) {
+        pico8_buttons[0] &= ~(KEY.U | KEY.D | KEY.L | KEY.R); // clear all axes
+        for(var i=0; i<active_keys.length;i++) { pico8_buttons[0] |= active_keys[i]; }
+        updatePressedClasses();
+      },
+      relTouchPosInEl = function(el, touch) {
+        var rect = el.getBoundingClientRect();
+        if(rect.width === 0 || rect.height === 0) return {x: 0, y: 0};
+        return {
+          x: Math.min(1, Math.max(0, (touch.clientX - rect.left) / rect.width)),
+          y: Math.min(1, Math.max(0, (touch.clientY - rect.top) / rect.height))
+        };
+      },
+      axisUpdate = function(el, touch) {
+        var
+          pos = relTouchPosInEl(el, touch),
+          x_axis = 0, y_axis = 0;
+        if(pos.x < .4) x_axis = KEY.L;
+        if(pos.x > .6) x_axis = KEY.R;
+        btnAxis([x_axis, y_axis]);
+      },
+      axisEnd = function() { btnAxis([]); },
+      killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
+      addXAxis = function(el) {
+        el.addEventListener("touchstart", function(evt){ killEvt(evt); axisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+        el.addEventListener("touchmove", function(evt){ killEvt(evt); axisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+        el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
+        el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
+      },
+      addButton = function(el, key) {
+        el.addEventListener("touchstart", function(evt){ killEvt(evt); btnDown(key); }, false);
+        el.addEventListener("touchend", function(evt){ killEvt(evt); btnUp(key); }, false);
+        el.addEventListener("touchcancel", function(evt){ killEvt(evt); btnUp(key); }, false);
+      };
+
+    if(document.getElementById("btn-fire-x")) addButton(document.getElementById("btn-fire-x"), KEY.X);
+    if(document.getElementById("btn-fire-o")) addButton(document.getElementById("btn-fire-o"), KEY.O);
+    addXAxis(document.getElementById("btn-leftRight"));
+
+    document.getElementById("btns-wrapper").addEventListener("touchstart", function(evt){ evt.preventDefault(); }, false); // prevent "tilt-zooming" when accidentally touching between the buttons
+  }
+</script>
+
+</body></html>
