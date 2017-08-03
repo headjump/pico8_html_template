@@ -231,11 +231,11 @@
         <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg>
       </div>
     </div>
-    <div id="btn-fire-o" class="btn pull-right">
-      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg>
-    </div>
     <div id="btn-fire-x" class="btn pull-right">
       <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg>
+    </div>
+    <div id="btn-fire-o" class="btn pull-right">
+      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg>
     </div>
     <div class="clear"></div>
   </div>
@@ -266,7 +266,7 @@
           target.className = classes;
         };
       }()),
-      KEY = { L: 1, R: 2, U: 4, D: 8, X: 16, O: 32 },
+      KEY = { L: 1, R: 2, U: 4, D: 8, O: 16, X: 32 },
       btnDown = function(key) { pico8_buttons[0] |= key; updatePressedClasses(); },
       btnUp   = function(key) { pico8_buttons[0] &= ~key; updatePressedClasses(); },
       btnAxis = function(active_keys) {
