@@ -3,9 +3,7 @@
 **Supergood touch controls + standalone detection + offline-cache for your PICO8 games!**
 
 
-## Live Demo
-
-[PICO8 demo game!](https://headjump.github.io/pico8_html_template/)
+## Live Demo: [PICO8 demo game!](https://headjump.github.io/pico8_html_template/)
 
 [<img src="http://headjump.github.io/headjump_website/g/rockkid_demo.jpg">](https://headjump.github.io/pico8_html_template/)
 
