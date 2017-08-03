@@ -175,6 +175,15 @@
 </style>
 
 <style>
+  /* toggle between different buttonsets: */
+  .buttonset { display: none; }
+  .buttonset-use-1 .buttonset-1,
+  .buttonset-use-2 .buttonset-2,
+  .buttonset-use-3 .buttonset-3,
+  .buttonset-use-4 .buttonset-4,
+  .buttonset-use-5 .buttonset-5 { display: block; }
+
+  /* actual buttons: */
   .btns { position: fixed; bottom: 0; width: 100%; } /* wrapper for buttons - docks to bottom */
   .btn { /* generic button style: prevent text selection on touch */
     -webkit-touch-callout: none; /* iOS Safari */
@@ -209,7 +218,7 @@
   }
   .axis-leftRight .btn__rightArrowStyle {
     position: absolute;
-    width: 35%;
+    width: 50%;
     height: 100%;
     right: 0;
   }
@@ -248,8 +257,8 @@
   .pressed_D .btn__downArrowStyle--bg,
   .pressed_L .btn__leftArrowStyle--bg,
   .pressed_R .btn__rightArrowStyle--bg,
-  .axis-leftRight .pressed_L .btn__leftArrowStyle,
-  .axis-leftRight .pressed_R .btn__rightArrowStyle {
+  .pressed_L .axis-leftRight .btn__leftArrowStyle,
+  .pressed_R .axis-leftRight .btn__rightArrowStyle {
     background-color: #29ADFF; /* change color when pressed */
   }
   .pressed_X .btn-fire-x:after,
@@ -266,48 +275,57 @@
   }
   .clear{ clear:both; }
 </style>
-<div id="btns-wrapper" class="show-if-touch btns clear">
-  <div id="btns-markPressed"> <!-- gets classes for all pressed buttons: pressed_L, pressed_R, pressed_U, pressed_D, pressed_X, pressed_O -->
 
-    <!--
-    <div class="axis-leftRight btn btn--extra-wide pull-left">
-      <div class="btn__leftArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M22.536,0.47L3.207,15L22.536,29.53L22.536,0.47Z" style="fill:#222;"/></svg>
-      </div>
-      <div class="btn__rightArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg>
-      </div>
-    </div>
-    -->
+<div id="btns-wrapper" class="buttonset-use-1 show-if-touch clear">
+  <div id="btns-markPressed"><!-- Gets classes for all pressed buttons:
+                                  'pressed_L', 'pressed_R', 'pressed_U', 'pressed_D', 'pressed_X', 'pressed_O'
+                                  (don't add other classes here, they'll get overridden!
+                                  -->
 
-    <div class="axis-upDownLeftRight btn btn--extra-wide pull-left">
-      <!-- Separate divs for btn-backgrounds and icons, so highlighted backgrounds don't overlap icons of other buttons-->
-      <div class="btn__leftArrowStyle btn__leftArrowStyle--bg"></div>
-      <div class="btn__rightArrowStyle btn__rightArrowStyle--bg"></div>
-      <div class="btn__upArrowStyle btn__upArrowStyle--bg"></div>
-      <div class="btn__downArrowStyle btn__downArrowStyle--bg"></div>
 
-      <div class="btn__leftArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M22.536,0.47L3.207,15L22.536,29.53L22.536,0.47Z" style="fill:#222;"/></svg>
+    <!------- BUTTONSET 1 ----------
+           ↑
+         ←   →      O  X
+           ↓
+    -------------------------------->
+    <div class="btns buttonset buttonset-1">
+      <div class="axis-upDownLeftRight btn btn--extra-wide pull-left">
+        <!-- Separate divs for btn-backgrounds and icons, so highlighted backgrounds don't overlap icons of other buttons-->
+        <div class="btn__leftArrowStyle btn__leftArrowStyle--bg"></div>
+        <div class="btn__rightArrowStyle btn__rightArrowStyle--bg"></div>
+        <div class="btn__upArrowStyle btn__upArrowStyle--bg"></div>
+        <div class="btn__downArrowStyle btn__downArrowStyle--bg"></div>
+
+        <div class="btn__leftArrowStyle"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M22.536,0.47L3.207,15L22.536,29.53L22.536,0.47Z" style="fill:#222;"/></svg></div>
+        <div class="btn__upArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="UP" d="M0.113,5.409l3.487,-4.639l3.487,4.639l-6.974,0Z" style="fill:#222;"/></svg></div>
+        <div class="btn__downArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="DOWN" d="M7.087,1.791l-3.487,4.639l-3.487,-4.639l6.974,0Z" style="fill:#222;"/></svg></div>
+        <div class="btn__rightArrowStyle"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg></div>
       </div>
-      <div class="btn__upArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="UP" d="M0.113,5.409l3.487,-4.639l3.487,4.639l-6.974,0Z" style="fill:#222;"/></svg>
-      </div>
-      <div class="btn__downArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="DOWN" d="M7.087,1.791l-3.487,4.639l-3.487,-4.639l6.974,0Z" style="fill:#222;"/></svg>
-      </div>
-      <div class="btn__rightArrowStyle">
-        <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg>
-      </div>
+
+      <div class="btn-fire-x btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
+      <div class="btn-fire-o btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg></div>
+
+      <div class="clear"></div>
     </div>
 
-    <div class="btn-fire-x btn pull-right">
-      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg>
+
+    <!------- BUTTONSET 2 ----------
+
+         ←   →         O
+
+    -------------------------------->
+    <div class="btns buttonset buttonset-2">
+      <div class="axis-leftRight btn btn--extra-wide pull-left">
+        <div class="btn__leftArrowStyle"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M22.536,0.47L3.207,15L22.536,29.53L22.536,0.47Z" style="fill:#222;"/></svg></div>
+        <div class="btn__rightArrowStyle"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg></div>
+      </div>
+
+      <div class="btn-fire-o btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg></div>
+
+      <div class="clear"></div>
     </div>
-    <div class="btn-fire-o btn pull-right">
-      <svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg>
-    </div>
-    <div class="clear"></div>
+
+
   </div>
 </div>
 
