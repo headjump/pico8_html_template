@@ -5,13 +5,11 @@
 
 ## Live Demo
 
-[PICO8 demo game!](http://headjump.de/g/rockkid)
+[PICO8 demo game!](https://headjump.github.io/pico8_html_template/)
 
-[<img src="http://headjump.github.io/headjump_website/g/rockkid_demo.jpg">](http://headjump.de/g/rockkid)
+[<img src="http://headjump.github.io/headjump_website/g/rockkid_demo.jpg">](https://headjump.github.io/pico8_html_template/)
 
 Open it on your smartphone, it works great :)
-
-You'll see that the demo only displays a single button. The HTML template has two buttons, though.
 
 
 ## About and why
