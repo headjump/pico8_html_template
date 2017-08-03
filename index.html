@@ -352,6 +352,13 @@
       changeButtonset=(function(){
         classHolder=document.getElementById("btns-markUsedButtonset");
         var current=-1;
+
+        // poll for pico8_gpio to check if PICO8-game wants a buttonset-change
+        window.setInterval(function(){
+          var from_pico8=pico8_gpio[0];
+          if(from_pico8 !== 0) changeButtonset(from_pico8);
+        },300); // checking all 300ms should be OK
+
         return function(buttonset_number){
           if(current!==buttonset_number) {
             pico8_buttons[0] = 0; // reset current inputs
@@ -359,6 +366,7 @@
             current=buttonset_number;
           }
         };
+
       }());
       changeButtonset(1); // set starting buttonset!
 
