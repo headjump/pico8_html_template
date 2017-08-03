@@ -229,7 +229,8 @@
   }
   .axis-upDownLeftRight .btn__upArrowStyle {
     position: absolute;
-    width: 100%;
+    width: 50%;
+    left: 25%;
     height: 40%;
     top: 0
   }
@@ -355,8 +356,8 @@
 
         // poll for pico8_gpio to check if PICO8-game wants a buttonset-change
         window.setInterval(function(){
-          var from_pico8=pico8_gpio[0];
-          if(from_pico8 !== 0) changeButtonset(from_pico8);
+          var from_pico8 = pico8_gpio[0];
+          if(!!from_pico8) changeButtonset(from_pico8);
         },300); // checking all 300ms should be OK
 
         return function(buttonset_number){
