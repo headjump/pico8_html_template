@@ -415,11 +415,11 @@
           if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
-            x_axis = 0, y_axis = 0;
-          if(pos.x < .4) x_axis = KEY.L;
-          if(pos.x > .6) x_axis = KEY.R;
-          if(pos.y < .35) y_axis = KEY.U; // a little less than for x-axis because area is more wide than high
-          if(pos.y > .65) y_axis = KEY.D; // a little less than for x-axis because area is more wide than high
+            x_axis = 0, y_axis = 0, x_range = .44, y_range = .38;
+          if(pos.x < x_range) x_axis = KEY.L;
+          if(pos.x > 1-x_range) x_axis = KEY.R;
+          if(pos.y < y_range) y_axis = KEY.U;
+          if(pos.y > 1-y_range) y_axis = KEY.D;
           btnAxis([x_axis, y_axis]);
         },
         axisEnd = function() { btnAxis([]); },
