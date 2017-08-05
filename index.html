@@ -184,33 +184,36 @@
   .buttonset-use-5 .buttonset-5 { display: block; }
 
   /* actual buttons: */
-  .btns { position: fixed; bottom: 0; width: 100%; direction:ltr; } /* wrapper for buttons - docks to bottom */
+  .btns { position: fixed; bottom: 0; width: 100%; direction:ltr; height: 90px; } /* wrapper for buttons - docks to bottom */
   .btn { /* generic button style: prevent text selection on touch */
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none; /* Non-prefixed version, currently supported by Chrome and Opera */
-    height: 90px;
-    line-height: 90px;
+    height: 100%;
     font-size: 35px;
     font-weight: bold;
     border: 2px solid #1D2B53;
     color: #1D2B53;
     text-align: center;
-    width: 20%;
-    max-width: 120px;
+    width: 24%;
+    max-width: 180px;
   }
   @media screen and (max-height: 640px) and (min-width: 500px) {  /* make canvas smaller for small screen-height to make room for touch-buttons */
     canvas#canvas { max-width: 420px; height: auto; }
-    .btn { height: 65px; line-height: 65px; } }
+    .btns { height: 65px; } }
   @media screen and (max-height: 520px) {   /* less height on low screens */
-    .btn { height: 50px; line-height: 50px; } }
-  .btn--wide { width: 35%; max-width: 180px; }
-  .btn--extra-wide { width: 45%; max-width: 220px; }
+    .btns { height: 50px; } }
+  .btn--wide { width: 35%; max-width: 200px; }
+  .btn--extra-wide { width: 48%; max-width: 280px; }
   .pull-left { float:left; }
   .pull-right { float:right; }
   .axis-leftRight,.axis-upDownLeftRight { position: relative; background: #1288D1;}
+  .axis-upDownLeftRight {
+    height: 125%;
+    top: -25%
+  }
   .axis-leftRight .btn__leftArrowStyle {
     position: absolute;
     width: 50%;
@@ -314,7 +317,7 @@
 
       <!------- BUTTONSET 2 ----------
 
-           ←   →         O
+           ←   →         X
 
       -------------------------------->
       <div class="btns buttonset buttonset-2">
@@ -323,7 +326,7 @@
           <div class="btn__rightArrowStyle"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M7.464,0.47L26.793,15L7.464,29.53L7.464,0.47Z" style="fill:#222;"/></svg></div>
         </div>
 
-        <div class="btn-fire-o btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><circle cx="15" cy="15" r="11.253" style="fill:#222;"/></svg></div>
+        <div class="btn-fire-x btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
 
         <div class="clear"></div>
       </div>
@@ -400,6 +403,7 @@
           };
         },
         xAxisUpdate = function(el, touch) {
+          if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
             x_axis = 0, y_axis = 0;
@@ -408,6 +412,7 @@
           btnAxis([x_axis, y_axis]);
         },
         xyAxisUpdate = function(el, touch) {
+          if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
             x_axis = 0, y_axis = 0;
