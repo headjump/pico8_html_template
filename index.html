@@ -130,27 +130,19 @@
     <span class="pico8_el" onclick="Module.pico8Reset();">
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dOwoAMQhE15A+rfc/3bZ7AlMnQfywCkKsfcgMM9ZP+QHtIn0vLeBAFduiFdQ/0DmvtR5LXJ6CPSXe2ZXcFNlTxFbemKrbZPs35XogeS9xeQr+anT6LzoOwEDwZJ7jwhXUnwkTTiDQ2Ja34AAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
-        alt="Reset" width=12 height=12/>
-      Reset
-    </span>
+        alt="Reset" width=12 height=12/> Reset</span>
     <span class="pico8_el" onclick="Module.pico8TogglePaused();">
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAPUlEQVR4Ae3doQ0AIAxEUWABLPtPh2WCq26DwFSU/JPNT166QSu/Hg86W9dwLte+diP7AwAAAAAAgD+A+jM2ZAgo84I0PgAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
-        alt="Pause" width=12 height=12/>
-      Pause
-    </span>
+        alt="Pause" width=12 height=12/> Pause</span>
     <span class="pico8_el show-if-not-touch" onclick="Module.requestFullScreen(true, false);">
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAaklEQVR4Ae2dsQ1AIQhExfze1v2ns3UCrfgFhmgUUAoGgHscp21wX9BqaZoDojbB96OkDJKNcTN2BHTyYNYmoT2BlPL7BKgcPfHjAVXKKadkHOn9K1r16N0czN6a95N8mnA7Aq2fTZ3Af3UKmCSMazL8HwAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
-        alt="Fullscreen" width=12 height=12/>
-      Fullscreen
-    </span>
+        alt="Fullscreen" width=12 height=12/> Fullscreen</span>
     <span class="pico8_el" onclick="Module.pico8ToggleSound();">
       <img
         src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAXklEQVR4Ae2doQ4AIQxD4YLH8v9fh+ULhjpxxSwLg2uyapr1JRu1iV5Z+1BGl4+xNpX38SYo2uRvYiT5LwEmt+ocgXVLrhPEgBiw8Q5w7/kueSkK+D2tJO4E/I3GrwkqQCBabEj/4QAAABB0RVh0TG9kZVBORwAyMDExMDIyMeNZtsEAAAAASUVORK5CYII="
-        alt="Toggle Sound" width=12 height=12/>
-      Sound
-    </span>
+        alt="Toggle Sound" width=12 height=12/> Sound</span>
   </div>
 </div>
 
@@ -181,7 +173,7 @@
   .buttonset-use-2 .buttonset-2,
   .buttonset-use-3 .buttonset-3,
   .buttonset-use-4 .buttonset-4,
-  .buttonset-use-5 .buttonset-5 { display: block; }
+  .buttonset-use-5 .buttonset-5 { display: block; } /* Add more as you need them */
 
   /* actual buttons: */
   .btns { position: fixed; bottom: 0; width: 100%; direction:ltr; height: 90px; } /* wrapper for buttons - docks to bottom */
@@ -249,6 +241,11 @@
     width: 40%;
     height: 100%;
     right: 0;
+  }
+  .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__upArrowStyle,
+  .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__downArrowStyle {
+    width: 100%;
+    left: 0;
   }
   .btn svg { /* center SVGs in buttons */
     position: absolute;
@@ -331,16 +328,34 @@
         <div class="clear"></div>
       </div>
 
+
+
+      <!------- BUTTONSET 3 ----------
+             ↑
+                       X
+             ↓
+      -------------------------------->
+      <div class="btns buttonset buttonset-3">
+        <div class="axis-upDownLeftRight axis-upDownLeftRight--upDownAtFullWidth btn btn--wide pull-left">
+          <!-- Separate divs for btn-backgrounds and icons, so highlighted backgrounds don't overlap icons of other buttons-->
+          <div class="btn__upArrowStyle btn__upArrowStyle--bg"></div>
+          <div class="btn__downArrowStyle btn__downArrowStyle--bg"></div>
+
+          <div class="btn__upArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="UP" d="M0.113,5.409l3.487,-4.639l3.487,4.639l-6.974,0Z" style="fill:#222;"/></svg></div>
+          <div class="btn__downArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="DOWN" d="M7.087,1.791l-3.487,4.639l-3.487,-4.639l6.974,0Z" style="fill:#222;"/></svg></div>
+        </div>
+
+        <div class="btn-fire-x btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
+
+        <div class="clear"></div>
+      </div>
+
     </div>
   </div>
 </div>
 
 <script type="text/javascript">
-  // --------- CREATE TOUCH BUTTONS ---------
-  //
-  //      [  <    >  ]       [ X ] [ O ]
-  //
-  // At the moment only left,right,x,o are supported!
+  // --------- HANDLE TOUCH-EVENTS ON BUTTONS ---------
   //
   // IMPORTANT FOR TESTING:
   //   The buttons ONLY work with touch-events, so you can't test them
