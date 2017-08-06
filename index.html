@@ -377,7 +377,7 @@
         window.setInterval(function(){
           var from_pico8 = pico8_gpio[0];
           if(!!from_pico8) changeButtonset(from_pico8);
-        },300); // checking all 300ms should be OK
+        },100);
 
         return function(buttonset_number){
           if(current!==buttonset_number) {
