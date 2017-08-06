@@ -1,4 +1,4 @@
-# PICO8 Templage HTML file
+# PICO8 HTML Template
 
 **Good touch controls + standalone detection + offline-cache for your PICO8 games!**
 
