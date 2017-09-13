@@ -21,7 +21,7 @@ The existing HTML-export however, by the time of writing, doesn't come with touc
 
 The template file is a single HTML file with inline styles, javascripts and svg-images.
 
-This is so you don't need additional tools to build the code or link a lot of files. I tried my best to provide a good code scructure and comments - so it should be easy to follow what is going on.
+This is so you don't need additional tools to build the code or link a lot of files. I tried my best to provide a good code structure and comments - so it should be easy to follow what is going on.
 
 Override game.js and icon.png with your own files and set your title and description in the index.html file.
 
