@@ -1,6 +1,6 @@
 # PICO8 HTML Template
 
-**Good touch controls + standalone detection + offline-cache for your PICO8 games!**
+*Touch controls + standalone detection + offline-cache for your PICO8 games*
 
 
 ## Live Demo: [PICO8 demo game!](https://headjump.github.io/pico8_html_template/)
@@ -24,6 +24,8 @@ The template file is a single HTML file with inline styles, javascripts and svg-
 This is so you don't need additional tools to build the code or link a lot of files. I tried my best to provide a good code structure and comments - so it should be easy to follow what is going on.
 
 Override game.js and icon.png with your own files and set your title and description in the index.html file.
+
+Your icon.png should be 200x200px. This will work ok as Favicon, AppIcon and for most sharing sites as "Card Image".
 
 
 
@@ -67,3 +69,8 @@ To check the game locally in your browser while you are still developing, it is 
 Current iOS unfortunately reloads the page when used as webapp everytime you switch back to the the webapp from another app (while multitasking).
 
 This means, your PICO8 game restarts everytime you switch back to the app. The only workaround at the moment is to save and restore the players progress within the game. At minimum you should save the current level number and accumulated score and restore it on gamestart (or give the player the option to continue the game).
+
+
+## Host on [Github-Pages](https://pages.github.com/)
+
+If you clone this repo, you can directly push/merge the master branch to the gh-pages branch, it will work for Github-Pages out of the box. Make sure to update the og:image URL to your URL!
