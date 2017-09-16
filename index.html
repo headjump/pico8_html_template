@@ -217,34 +217,53 @@
   .btn--extra-wide { width: 48%; max-width: 280px; }
   .pull-left { float:left; }
   .pull-right { float:right; }
-  .axis-leftRight,.axis-upDownLeftRight { position: relative; background: var(--btn);}
+  .axis-leftRight { position: relative; background: var(--btn);}
+  .axis-upDownLeftRight { position: relative; }
   .axis-upDownLeftRight { height: 125%; top: -25% }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
+  .btn__horAxisBg {
+    position: absolute;
+    background-color: var(--btn);
+    top: 30%;
+    height: 40%;
+    width: 90%;
+    left: 5%;
+  }
+  .btn__vertAxisBg {
+    position: absolute;
+    background-color: var(--btn);
+    left: 35%;
+    width: 30%;
+    height: 100%;
+  }
   .axis-upDownLeftRight .btn__leftArrowStyle {
     position: absolute;
-    width: 35%;
-    height: 100%;
+    width: 30%;
+    left: 5%;
+    height: 40%;
+    top: 30%;
+  }
+  .axis-upDownLeftRight .btn__rightArrowStyle {
+    position: absolute;
+    width: 30%;
+    height: 40%;
+    top: 30%;
+    right: 5%;
   }
   .axis-upDownLeftRight .btn__upArrowStyle {
     position: absolute;
-    width: 40%;
-    left: 30%;
-    height: 40%;
+    width: 30%;
+    left: 35%;
+    height: 35%;
     top: 0
   }
   .axis-upDownLeftRight .btn__downArrowStyle {
     position: absolute;
-    width: 40%;
-    left: 30%;
-    height: 40%;
+    width: 30%;
+    left: 35%;
+    height: 35%;
     bottom: 0;
-  }
-  .axis-upDownLeftRight .btn__rightArrowStyle {
-    position: absolute;
-    width: 40%;
-    height: 100%;
-    right: 0;
   }
   .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__upArrowStyle,
   .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__downArrowStyle {
@@ -297,6 +316,10 @@
       -------------------------------->
       <div class="btns buttonset buttonset-1">
         <div class="axis-upDownLeftRight btn btn--extra-wide pull-left">
+          <!-- Axis background -->
+          <div class="btn__horAxisBg"></div>
+          <div class="btn__vertAxisBg"></div>
+
           <!-- Separate divs for btn-backgrounds and icons, so highlighted backgrounds don't overlap icons of other buttons-->
           <div class="btn__leftArrowStyle btn__leftArrowStyle--bg"></div>
           <div class="btn__rightArrowStyle btn__rightArrowStyle--bg"></div>
