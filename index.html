@@ -539,17 +539,20 @@
           if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
-            x_axis = 0, y_axis = 0,
-            x_axis_fac = .8, y_axis_fac = .75;
-          x_axis = (pos.x-.5) * x_axis_fac;
-          if(x_axis<-1) x_axis=-1;
-          if(x_axis>1) x_axis=1;
-          y_axis = (pos.y-.5) * y_axis_fac;
-          if(y_axis<-1) y_axis=-1;
-          if(y_axis>1) y_axis=1;
-          stick.style.left=""+Math.round((x_axis+.5)*100)+"%";
-          stick.style.top=""+Math.round((y_axis+.5)*100)+"%";
-          setAnalogAxis(Math.floor(x_axis*200) , Math.floor(y_axis*200));
+            x_border=.15, y_border=.15,
+            x_val=pos.x-.5,y_val=pos.y-.5, // both for axis-value calculation
+            x_stick=pos.x,y_stick=pos.y;   // both for Stick-graphic placement
+          if(x_val<-.5+x_border)x_val=-.5+x_border;
+          if(x_val>.5-x_border)x_val=.5-x_border;
+          if(y_val<-.5+y_border)y_val=-.5+y_border;
+          if(y_val>.5-y_border)y_val=.5-y_border;
+          if(x_stick<x_border)x_stick=x_border;
+          if(x_stick>1-x_border)x_stick=1-x_border;
+          if(y_stick<y_border)y_stick=y_border;
+          if(y_stick>1-y_border)y_stick=1-y_border;
+          stick.style.left=""+Math.round(x_stick*100)+"%";
+          stick.style.top=""+Math.round(y_stick*100)+"%";
+          setAnalogAxis(Math.floor(x_val/(.5-x_border)*100) , Math.floor(y_val/(.5-y_border)*100));
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
