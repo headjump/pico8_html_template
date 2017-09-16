@@ -225,8 +225,8 @@
     position: absolute; left: 50%; top: 50%;
   }
   .btn__stick__inner {
-    width: 30px; height: 30px; position: absolute; background-color: var(--btn); border-radius: 15px;
-    margin-left: -15px; margin-top: -15px;
+    width: 40px; height: 40px; position: absolute; background-color: var(--btn); border-radius: 20px;
+    margin-left: -20px; margin-top: -20px;
   }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
@@ -434,10 +434,16 @@
 
     (function(){ // locally scoped
       var
-        analogAxis=[0,0],                       // <= stores analogue val [-100..100, -100..100]
         allAnalogSticks=document.querySelectorAll(".axis-analog .btn__stick");
 
+      var setAnalogAxis=function(x,y){
+        pico8_gpio[GPIO_ANALOG_X_INDEX]=x;
+        pico8_gpio[GPIO_ANALOG_Y_INDEX]=y;
+        console.log(x,y);
+      };
+
       var resetAnalogSticks = function(sticks_or_null) {
+        setAnalogAxis(0,0);
         sticks_or_null || (sticks_or_null=allAnalogSticks);
         var st;
         for(var i=0; i<sticks_or_null.length; i++){
@@ -528,6 +534,22 @@
           if(pos.y < y_range) y_axis = KEY.U;
           if(pos.y > 1-y_range) y_axis = KEY.D;
           btnAxis([x_axis, y_axis]);
+        },
+        analogAxisUpdate = function(el, stick, touch) {
+          if(!touch) return; // can occur when switching buttonsets
+          var
+            pos = relTouchPosInEl(el, touch),
+            x_axis = 0, y_axis = 0,
+            x_axis_fac = .8, y_axis_fac = .75;
+          x_axis = (pos.x-.5) * x_axis_fac;
+          if(x_axis<-1) x_axis=-1;
+          if(x_axis>1) x_axis=1;
+          y_axis = (pos.y-.5) * y_axis_fac;
+          if(y_axis<-1) y_axis=-1;
+          if(y_axis>1) y_axis=1;
+          stick.style.left=""+Math.round((x_axis+.5)*100)+"%";
+          stick.style.top=""+Math.round((y_axis+.5)*100)+"%";
+          setAnalogAxis(Math.floor(x_axis*200) , Math.floor(y_axis*200));
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
