@@ -25,6 +25,14 @@
   <meta property="og:description" content="Game description" />                                         <!-- <= GAME DESCRIPTION -->
 
   <style TYPE="text/css">
+    /* ------- DEFINE BUTTON COLORS ------- */
+    :root {
+      --btn: #1288D1;
+      --btn--pressed: #29ADFF;
+
+      --btnIcon: #222222;
+      --btnIcon--pressed: #111111;
+    }
     body { font-family: Verdana, Arial, sans-serif; padding: 0; margin: 0; outline: none; background: #222; overflow: hidden; }
 
     /* ------ POSITION GAME-CANVAS ------ */
@@ -192,11 +200,13 @@
     height: 100%;
     font-size: 35px;
     font-weight: bold;
-    border: 2px solid #1D2B53;
-    color: #1D2B53;
+    color: var(--btnIcon);
     text-align: center;
     width: 24%;
     max-width: 180px;
+  }
+  .btn svg path {
+    fill: var(--btnIcon) !important;
   }
   @media screen and (max-height: 640px) and (min-width: 500px) {  /* make canvas smaller for small screen-height to make room for touch-buttons */
     canvas#canvas { max-width: 420px; height: auto; }
@@ -207,22 +217,10 @@
   .btn--extra-wide { width: 48%; max-width: 280px; }
   .pull-left { float:left; }
   .pull-right { float:right; }
-  .axis-leftRight,.axis-upDownLeftRight { position: relative; background: #1288D1;}
-  .axis-upDownLeftRight {
-    height: 125%;
-    top: -25%
-  }
-  .axis-leftRight .btn__leftArrowStyle {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-  }
-  .axis-leftRight .btn__rightArrowStyle {
-    position: absolute;
-    width: 50%;
-    height: 100%;
-    right: 0;
-  }
+  .axis-leftRight,.axis-upDownLeftRight { position: relative; background: var(--btn);}
+  .axis-upDownLeftRight { height: 125%; top: -25% }
+  .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
+  .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
   .axis-upDownLeftRight .btn__leftArrowStyle {
     position: absolute;
     width: 35%;
@@ -258,7 +256,7 @@
     left: 50%; top: 50%;
     margin-left: -15px; margin-top: -15px;
   }
-  .btn-fire-x, .btn-fire-o { background-color: #1288D1; position: relative; }
+  .btn-fire-x, .btn-fire-o { background-color: var(--btn); position: relative; }
   .pressed_X .btn-fire-x,
   .pressed_O .btn-fire-o,
   .pressed_U .btn__upArrowStyle--bg,
@@ -267,17 +265,17 @@
   .pressed_R .btn__rightArrowStyle--bg,
   .pressed_L .axis-leftRight .btn__leftArrowStyle,
   .pressed_R .axis-leftRight .btn__rightArrowStyle {
-    background-color: #29ADFF; /* change color when pressed */
+    background-color: var(--btn--pressed); /* change color when pressed */
   }
-  .pressed_X .btn-fire-x:after,
-  .pressed_O .btn-fire-o:after,
-  .pressed_U .btn__upArrowStyle:after,
-  .pressed_D .btn__downArrowStyle:after,
-  .pressed_L .btn__leftArrowStyle:after,
-  .pressed_R .btn__rightArrowStyle:after { /* add a top border to the button when pressed, so users really see it */
-    content: ""; width: 100%; height: 6px; position: absolute; margin-top: -5px; left: 0; background-color: #29ADFF; }
-  .pressed_D .btn__downArrowStyle:after {
-    top: -142%; height: 2px;
+  .pressed_X .btn-fire-x svg path,
+  .pressed_O .btn-fire-o svg path,
+  .pressed_U .btn__upArrowStyle--bg svg path,
+  .pressed_D .btn__downArrowStyle--bg svg path,
+  .pressed_L .btn__leftArrowStyle--bg svg path,
+  .pressed_R .btn__rightArrowStyle--bg svg path,
+  .pressed_L .axis-leftRight .btn__leftArrowStyle svg path,
+  .pressed_R .axis-leftRight .btn__rightArrowStyle svg path {
+    fill: var(--btnIcon--pressed) !important; /* change color when pressed */
   }
   .clear{ clear:both; }
 </style>
