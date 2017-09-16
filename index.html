@@ -399,7 +399,7 @@
 
 
 
-      <!------- BUTTONSET 4 - Analog Stick ----------
+      <!------- BUTTONSET 4 - Analog Stick (gives values to GPIO from [0..100,0..100] - [50,50] is center!) ----------
               ↑
              ←O→          X
               ↓
@@ -465,7 +465,7 @@
       };
 
       var resetAnalogSticks = function(sticks_or_null) {
-        setAnalogAxis(0,0);
+        setAnalogAxis(50,50);
         sticks_or_null || (sticks_or_null=allAnalogSticks);
         var st;
         for(var i=0; i<sticks_or_null.length; i++){
@@ -473,6 +473,7 @@
           st.style.left="50%"; st.style.top="50%";
         }
       };
+      resetAnalogSticks();
 
       changeButtonset=(function(){
         classHolder=document.getElementById("btns-markUsedButtonset");
@@ -574,7 +575,7 @@
           if(y_stick>1-y_border)y_stick=1-y_border;
           stick.style.left=""+Math.round(x_stick*100)+"%";
           stick.style.top=""+Math.round(y_stick*100)+"%";
-          setAnalogAxis(Math.floor(x_val/(.5-x_border)*100) , Math.floor(y_val/(.5-y_border)*100));
+          setAnalogAxis(Math.floor(x_val/(.5-x_border)*50+50) , Math.floor(y_val/(.5-y_border)*50+50));
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
