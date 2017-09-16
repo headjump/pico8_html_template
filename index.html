@@ -218,10 +218,12 @@
   .pull-left { float:left; }
   .pull-right { float:right; }
   .axis-leftRight { position: relative; background: var(--btn);}
-  .axis-upDownLeftRight { position: relative; }
-  .axis-upDownLeftRight { height: 125%; top: -25% }
+  .axis-upDown { position: relative; background: var(--btn); height: 130%; top: -30%; }
+  .axis-upDownLeftRight { position: relative; height: 140%; top: -40%; }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
+  .axis-upDown .btn__upArrowStyle { position: absolute; width: 100%; height: 50%; }
+  .axis-upDown .btn__downArrowStyle { position: absolute; width: 100%; height: 50%; bottom: 0; }
   .btn__horAxisBg {
     position: absolute;
     background-color: var(--btn);
@@ -255,14 +257,14 @@
     position: absolute;
     width: 30%;
     left: 35%;
-    height: 35%;
+    height: 30%;
     top: 0
   }
   .axis-upDownLeftRight .btn__downArrowStyle {
     position: absolute;
     width: 30%;
     left: 35%;
-    height: 35%;
+    height: 30%;
     bottom: 0;
   }
   .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__upArrowStyle,
@@ -274,6 +276,11 @@
     position: absolute;
     left: 50%; top: 50%;
     margin-left: -15px; margin-top: -15px;
+  }
+  .axis-upDownLeftRight.btn svg { /* D-PAD icons smaller */
+    width: 20px;
+    height: 20px;
+    margin-left: -10px; margin-top: -10px;
   }
   .btn-fire-x, .btn-fire-o { background-color: var(--btn); position: relative; }
   .pressed_X .btn-fire-x,
@@ -363,7 +370,7 @@
              ↓
       -------------------------------->
       <div class="btns buttonset buttonset-3">
-        <div class="axis-upDownLeftRight axis-upDownLeftRight--upDownAtFullWidth btn btn--wide pull-left">
+        <div class="axis-upDown btn btn--wide pull-left">
           <!-- Separate divs for btn-backgrounds and icons, so highlighted backgrounds don't overlap icons of other buttons-->
           <div class="btn__upArrowStyle btn__upArrowStyle--bg"></div>
           <div class="btn__downArrowStyle btn__downArrowStyle--bg"></div>
@@ -372,7 +379,7 @@
           <div class="btn__downArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="DOWN" d="M7.087,1.791l-3.487,4.639l-3.487,-4.639l6.974,0Z" style="fill:#222;"/></svg></div>
         </div>
 
-        <div class="btn-fire-x btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
+        <div class="btn-fire-x btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
 
         <div class="clear"></div>
       </div>
@@ -453,11 +460,21 @@
           if(pos.x > .6) x_axis = KEY.R;
           btnAxis([x_axis, y_axis]);
         },
+        yAxisUpdate = function(el, touch) {
+          if(!touch) return; // can occur when switching buttonsets
+          var
+            pos = relTouchPosInEl(el, touch),
+            x_axis = 0, y_axis = 0;
+          if(pos.y < .4) y_axis = KEY.U;
+          if(pos.y > .6) y_axis = KEY.D;
+          btnAxis([x_axis, y_axis]);
+        },
         xyAxisUpdate = function(el, touch) {
           if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
-            x_axis = 0, y_axis = 0, x_range = .44, y_range = .38;
+            x_axis = 0, y_axis = 0,
+            x_range = .3, y_range = .3;
           if(pos.x < x_range) x_axis = KEY.L;
           if(pos.x > 1-x_range) x_axis = KEY.R;
           if(pos.y < y_range) y_axis = KEY.U;
@@ -469,6 +486,12 @@
         addXAxis = function(el) {
           el.addEventListener("touchstart", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
           el.addEventListener("touchmove", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+          el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
+          el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
+        },
+        addYAxis = function(el) {
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); yAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); yAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
           el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
           el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
         },
@@ -487,6 +510,7 @@
       var
         axisXs=document.getElementsByClassName("axis-leftRight"),
         axisXYs=document.getElementsByClassName("axis-upDownLeftRight"),
+        axisYs=document.getElementsByClassName("axis-upDown"),
         xBtns=document.getElementsByClassName("btn-fire-x"),
         oBtns=document.getElementsByClassName("btn-fire-o"),
         i;
@@ -494,6 +518,7 @@
       console.log(axisXs);
       for(i=0; i<axisXs.length; i++){ addXAxis(axisXs[i]); }
       for(i=0; i<axisXYs.length; i++){ addXYAxis(axisXYs[i]); }
+      for(i=0; i<axisYs.length; i++){ addYAxis(axisYs[i]); }
       for(i=0; i<xBtns.length; i++){ addButton(xBtns[i], KEY.X); }
       for(i=0; i<oBtns.length; i++){ addButton(oBtns[i], KEY.O); }
 
