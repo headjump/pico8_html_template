@@ -32,6 +32,8 @@
 
       --btnIcon: #222222;
       --btnIcon--pressed: #111111;
+
+      --btn__analogBg: #232f37;
     }
     body { font-family: Verdana, Arial, sans-serif; padding: 0; margin: 0; outline: none; background: #222; overflow: hidden; }
 
@@ -220,13 +222,13 @@
   .axis-leftRight { position: relative; background: var(--btn);}
   .axis-upDown { position: relative; background: var(--btn); height: 130%; top: -30%; }
   .axis-upDownLeftRight { position: relative; height: 140%; top: -40%; }
-  .axis-analog { position: relative; height: 140%; top: -40%; }
+  .axis-analog { position: relative; height: 140%; top: -40%; background-color: var(--btn__analogBg); }
   .btn__stick {
     position: absolute; left: 50%; top: 50%;
   }
   .btn__stick__inner {
-    width: 40px; height: 40px; position: absolute; background-color: var(--btn); border-radius: 20px;
-    margin-left: -20px; margin-top: -20px;
+    width: 50px; height: 50px; position: absolute; background-color: var(--btn); border-radius: 25px;
+    margin-left: -25px; margin-top: -25px;
   }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
@@ -289,6 +291,9 @@
     width: 20px;
     height: 20px;
     margin-left: -10px; margin-top: -10px;
+  }
+  .btn .btn__stick__inner svg{
+    margin-left: -23px; margin-top: -23px;
   }
   .btn-fire-x, .btn-fire-o { background-color: var(--btn); position: relative; }
   .pressed_X .btn-fire-x,
@@ -402,11 +407,28 @@
       <div class="btns buttonset buttonset-4">
         <div class="axis-analog btn btn--wide pull-left">
           <div class="btn__stick">
-            <div class="btn__stick__inner">O</div>
+            <div class="btn__stick__inner">
+              <svg width="46" height="46" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;">
+                <g id="Layer1" transform="matrix(0.536751,0,0,0.536751,6.94874,6.94874)">
+                    <g id="RIGHT" transform="matrix(-0.878534,0,0,0.660394,49.8793,5.69665)">
+                        <path d="M24.254,1.958L12.124,14.088L24.254,26.217L24.254,1.958Z" style="fill:rgb(34,34,34);"/>
+                    </g>
+                    <g id="UP" transform="matrix(-3.06037e-17,0.878534,0.660394,0,5.69665,-19.8793)">
+                        <path d="M24.254,1.958L12.124,14.088L24.254,26.217L24.254,1.958Z" style="fill:rgb(34,34,34);"/>
+                    </g>
+                    <g id="DOWN" transform="matrix(-7.69858e-17,-0.878534,-0.660394,8.08749e-17,24.3034,49.8793)">
+                        <path d="M24.254,1.958L12.124,14.088L24.254,26.217L24.254,1.958Z" style="fill:rgb(34,34,34);"/>
+                    </g>
+                    <g id="LEFT" transform="matrix(0.878534,0,0,0.660394,-19.8793,5.69665)">
+                        <path d="M24.254,1.958L12.124,14.088L24.254,26.217L24.254,1.958Z" style="fill:rgb(34,34,34);"/>
+                    </g>
+                </g>
+            </svg>
+            </div>
           </div>
         </div>
 
-        <div class="btn-fire-x btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
+        <div class="btn-fire-x btn pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
 
         <div class="clear"></div>
       </div>
