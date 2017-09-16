@@ -220,6 +220,14 @@
   .axis-leftRight { position: relative; background: var(--btn);}
   .axis-upDown { position: relative; background: var(--btn); height: 130%; top: -30%; }
   .axis-upDownLeftRight { position: relative; height: 140%; top: -40%; }
+  .axis-analog { position: relative; height: 140%; top: -40%; }
+  .btn__stick {
+    position: absolute; left: 50%; top: 50%;
+  }
+  .btn__stick__inner {
+    width: 30px; height: 30px; position: absolute; background-color: var(--btn); border-radius: 15px;
+    margin-left: -15px; margin-top: -15px;
+  }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
   .axis-upDown .btn__upArrowStyle { position: absolute; width: 100%; height: 50%; }
@@ -314,7 +322,7 @@
                                     (don't add other classes here, they'll get overridden! -->
 
 
-      <!------- BUTTONSET 1 ----------
+      <!------- BUTTONSET 1 - Up, Down, Left and Right ----------
              ↑
            ←   →      O  X
              ↓
@@ -346,7 +354,7 @@
       </div>
 
 
-      <!------- BUTTONSET 2 ----------
+      <!------- BUTTONSET 2 - Left and Right ----------
 
            ←   →         X
 
@@ -364,7 +372,7 @@
 
 
 
-      <!------- BUTTONSET 3 ----------
+      <!------- BUTTONSET 3 - Up and Down ----------
              ↑
                        X
              ↓
@@ -377,6 +385,25 @@
 
           <div class="btn__upArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="UP" d="M0.113,5.409l3.487,-4.639l3.487,4.639l-6.974,0Z" style="fill:#222;"/></svg></div>
           <div class="btn__downArrowStyle"><svg width="30" height="30" viewBox="0 0 8 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="DOWN" d="M7.087,1.791l-3.487,4.639l-3.487,-4.639l6.974,0Z" style="fill:#222;"/></svg></div>
+        </div>
+
+        <div class="btn-fire-x btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
+
+        <div class="clear"></div>
+      </div>
+
+
+
+      <!------- BUTTONSET 4 - Analog Stick ----------
+              ↑
+             ←O→          X
+              ↓
+      -------------------------------->
+      <div class="btns buttonset buttonset-4">
+        <div class="axis-analog btn btn--wide pull-left">
+          <div class="btn__stick">
+            <div class="btn__stick__inner">O</div>
+          </div>
         </div>
 
         <div class="btn-fire-x btn btn--wide pull-right"><svg width="30" height="30" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M9.05,3.207L15,9.157L20.95,3.207L26.793,9.05L20.843,15L26.793,20.95L20.95,26.793L15,20.843L9.05,26.793L3.207,20.95L9.157,15L3.207,9.05L9.05,3.207Z" style="fill:#222;"/></svg></div>
@@ -398,25 +425,46 @@
   //   -> https://developers.google.com/web/tools/chrome-devtools/device-mode/
   if(window.TOUCH) {
     var
+      GPIO_BUTTONSET_INDEX=0,
+      GPIO_ANALOG_X_INDEX=1,
+      GPIO_ANALOG_Y_INDEX=2,
       pico8_buttons = [0, 0, 0, 0, 0, 0, 0, 0], // <= the first element in this array will be updated by the touch-buttons
       pico8_gpio = new Array(128),              // <= used to let pico8-cart change buttonset
       changeButtonset;                          // usage: changeButtonset(2) to activates .buttonset-2
 
     (function(){ // locally scoped
+      var
+        analogAxis=[0,0],                       // <= stores analogue val [-100..100, -100..100]
+        allAnalogSticks=document.querySelectorAll(".axis-analog .btn__stick");
+
+      var resetAnalogSticks = function(sticks_or_null) {
+        sticks_or_null || (sticks_or_null=allAnalogSticks);
+        var st;
+        for(var i=0; i<sticks_or_null.length; i++){
+          st=allAnalogSticks[i];
+          st.style.left="50%"; st.style.top="50%";
+        }
+      };
+
       changeButtonset=(function(){
         classHolder=document.getElementById("btns-markUsedButtonset");
         var current=-1;
 
         // poll for pico8_gpio to check if PICO8-game wants a buttonset-change
         window.setInterval(function(){
-          var from_pico8 = pico8_gpio[0];
+          var from_pico8 = pico8_gpio[GPIO_BUTTONSET_INDEX];
           if(!!from_pico8) changeButtonset(from_pico8);
         },100);
 
         return function(buttonset_number){
           if(current!==buttonset_number) {
-            pico8_buttons[0] = 0; // reset current inputs
+            pico8_buttons[0] = 0; // reset pico btns
+            if(pico8_gpio[GPIO_BUTTONSET_INDEX]!==buttonset_number){
+              pico8_gpio[GPIO_BUTTONSET_INDEX]=buttonset_number;
+            }
+            analogs=[0,0];        // reset analog stick
             classHolder.className = "buttonset-use-" + buttonset_number;
+            resetAnalogSticks();
             current=buttonset_number;
           }
         };
@@ -483,6 +531,13 @@
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
+        addAnalogAxis = function(el) {
+          var stick=el.querySelector('.btn__stick');
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, evt.changedTouches && evt.changedTouches.item(0)); }, false);
+          el.addEventListener("touchend", function(evt){ killEvt(evt); resetAnalogSticks([stick]); }, false);
+          el.addEventListener("touchcancel", function(evt){ killEvt(evt); resetAnalogSticks([stick]); }, false);
+        },
         addXAxis = function(el) {
           el.addEventListener("touchstart", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
           el.addEventListener("touchmove", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
@@ -511,6 +566,7 @@
         axisXs=document.getElementsByClassName("axis-leftRight"),
         axisXYs=document.getElementsByClassName("axis-upDownLeftRight"),
         axisYs=document.getElementsByClassName("axis-upDown"),
+        axisAnalogs=document.getElementsByClassName("axis-analog"),
         xBtns=document.getElementsByClassName("btn-fire-x"),
         oBtns=document.getElementsByClassName("btn-fire-o"),
         i;
@@ -519,6 +575,7 @@
       for(i=0; i<axisXs.length; i++){ addXAxis(axisXs[i]); }
       for(i=0; i<axisXYs.length; i++){ addXYAxis(axisXYs[i]); }
       for(i=0; i<axisYs.length; i++){ addYAxis(axisYs[i]); }
+      for(i=0; i<axisAnalogs.length; i++){ addAnalogAxis(axisAnalogs[i]); }
       for(i=0; i<xBtns.length; i++){ addButton(xBtns[i], KEY.X); }
       for(i=0; i<oBtns.length; i++){ addButton(oBtns[i], KEY.O); }
 
