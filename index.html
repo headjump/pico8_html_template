@@ -219,7 +219,7 @@
   .pull-right { float:right; }
   .axis-leftRight { position: relative; background: var(--btn);}
   .axis-upDownLeftRight { position: relative; }
-  .axis-upDownLeftRight { height: 125%; top: -25% }
+  .axis-upDownLeftRight { height: 140%; top: -40% }
   .axis-leftRight .btn__leftArrowStyle { position: absolute; width: 50%; height: 100%; }
   .axis-leftRight .btn__rightArrowStyle { position: absolute; width: 50%; height: 100%; right: 0; }
   .btn__horAxisBg {
@@ -255,14 +255,14 @@
     position: absolute;
     width: 30%;
     left: 35%;
-    height: 35%;
+    height: 30%;
     top: 0
   }
   .axis-upDownLeftRight .btn__downArrowStyle {
     position: absolute;
     width: 30%;
     left: 35%;
-    height: 35%;
+    height: 30%;
     bottom: 0;
   }
   .axis-upDownLeftRight.axis-upDownLeftRight--upDownAtFullWidth .btn__upArrowStyle,
@@ -274,6 +274,11 @@
     position: absolute;
     left: 50%; top: 50%;
     margin-left: -15px; margin-top: -15px;
+  }
+  .axis-upDownLeftRight.btn svg { /* D-PAD icons smaller */
+    width: 20px;
+    height: 20px;
+    margin-left: -10px; margin-top: -10px;
   }
   .btn-fire-x, .btn-fire-o { background-color: var(--btn); position: relative; }
   .pressed_X .btn-fire-x,
@@ -457,7 +462,8 @@
           if(!touch) return; // can occur when switching buttonsets
           var
             pos = relTouchPosInEl(el, touch),
-            x_axis = 0, y_axis = 0, x_range = .44, y_range = .38;
+            x_axis = 0, y_axis = 0,
+            x_range = .3, y_range = .3;
           if(pos.x < x_range) x_axis = KEY.L;
           if(pos.x > 1-x_range) x_axis = KEY.R;
           if(pos.y < y_range) y_axis = KEY.U;
