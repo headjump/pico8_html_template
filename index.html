@@ -399,10 +399,24 @@
 
 
 
-      <!------- BUTTONSET 4 - Analog Stick (gives values to GPIO from [100..200,100..200] - [150,150] is center, so ) ----------
+      <!------- BUTTONSET 4 - Analog Stick ----------
               ↑
              ←O→          X
               ↓
+
+        gives values to GPIO from [50..150,50..150]
+        [100,100] is center, so to get the real value you have to subtract 100 for each axix,
+        which gives you a range of [-50..50] for each axis. (This is because PICO8-GPIO only supports vals from 0..255)
+
+        Example PICO8 code to get the axis:
+          function analog_x() if(peek(0x5f81)==0)then return 0 else return peek(0x5f81)-100 end end
+          function analog_y() if(peek(0x5f82)==0)then return 0 else return peek(0x5f82)-100 end end
+
+        To also support normal buttons, you can so sth like this inside PICO8:
+          speed_x = analog_x() / 5          -- gives values from -10 to 10 because input ranges from -50 to 50
+          if(btn(0))then speed_x = -10 end  -- overrides speed if button is pressed
+          if(btn(1))then speed_x = 10 end   -- .. this also ensures that the game can still be controlled via keyboard
+
       -------------------------------->
       <div class="btns buttonset buttonset-4">
         <div class="axis-analog btn btn--wide pull-left">
@@ -465,7 +479,7 @@
       };
 
       var resetAnalogSticks = function(sticks_or_null) {
-        setAnalogAxis(150,150);
+        setAnalogAxis(100,100);
         sticks_or_null || (sticks_or_null=allAnalogSticks);
         var st;
         for(var i=0; i<sticks_or_null.length; i++){
@@ -575,7 +589,7 @@
           if(y_stick>1-y_border)y_stick=1-y_border;
           stick.style.left=""+Math.round(x_stick*100)+"%";
           stick.style.top=""+Math.round(y_stick*100)+"%";
-          setAnalogAxis(Math.floor(x_val/(.5-x_border)*50+150) , Math.floor(y_val/(.5-y_border)*50+150));
+          setAnalogAxis(Math.floor(x_val/(.5-x_border)*50+100) , Math.floor(y_val/(.5-y_border)*50+100));
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
