@@ -491,7 +491,6 @@
       var setAnalogAxis=function(x,y){
         pico8_gpio[GPIO_ANALOG_X_INDEX]=x;
         pico8_gpio[GPIO_ANALOG_Y_INDEX]=y;
-        console.log(x,y);
       };
 
       var resetAnalogSticks = function(sticks_or_null) {
@@ -695,7 +694,6 @@
         oBtns=document.getElementsByClassName("btn-fire-o"),
         i;
 
-      console.log(axisXs);
       for(i=0; i<axisXs.length; i++){ addXAxis(axisXs[i]); }
       for(i=0; i<axisXYs.length; i++){ addXYAxis(axisXYs[i]); }
       for(i=0; i<axisYs.length; i++){ addYAxis(axisYs[i]); }
