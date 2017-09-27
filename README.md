@@ -72,13 +72,17 @@ if(btn(1))then speed_x = 10 end   -- .. this also ensures that the game can stil
 
 ## Tipps
 
-### What button-layouts work best?
+### Which button-layouts work best?
 
-If your game only uses a single action button, there is no need to display both. Why confuse the user? This is one of the advantages of touch controls - you are not tied to the keys on a keyboard or the buttons on a real controller.
+A touch device is a totally different input device than a controller or keyboard. It has a lot of disadvantages (e.g. not so precise, no haptic feedback) but also some great advantages: You can use the button layout that is perfect for the current game situation and you can change the button-layout on the fly.
 
-If you only need ← and → (e.g. in a simple sidescroller) it is best to only use the left-right-axis for your touch-controls.
+*Some suggestions:*
 
-When you need all directions (←, →, ↑, ↓), you should try to optimize the touch-detection for your games needs. The HTML template uses thresholds to decide whether left,right,up and down are pressed. There are different thresholds for x- and y-axis. If your game uses all directions "equally" (e.g. for a game where your control your character from a top-down perspective) the thresholds for x and y should be similar. But if your game uses one axis primarily and the other axis "sometimes" (e.g in a sidescroller where you press down while jumping to stomp), you can set the threshold to detect up/down touches only when you are close to the button boundaries (look for `x_range` and `y_range` in the code)
+You **side-scrolling platformer** is probably best controlled with only ← and → directions, no need for ↑ and ↓. So users only have to have to worry about the horizontal position of their thumb.
+     
+Maybe your **main or pause menu** displays the menu-options below one another? Why not only display ↑ and ↓ directions?
+     
+More tricky is the situation when you **need both x and y movement**. For a game that only uses straight directions without diagonals the virtual D-Pad might just work fine. But for most **top-down games** where you control a character in 8 directions I never found a mobile game with a great feeling virtual D-Pad. As a "compromise" you can use a virtual Analog-Stick on touch devices and the cursor-keys on desktop-computers. There is not much needed to make your game support both and the result can feel great.
 
 
 ### During development
