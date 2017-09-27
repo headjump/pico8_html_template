@@ -50,7 +50,7 @@ If you don't need this, simply set your preferred buttonset and never change it 
 
 ## Analog Stick
 
-The HTML-Template also provides an Analog-Stick for mobile touch control. At first I thought that this is a little against the spirit of PICO8, but I figured that a touch-D-PAD often isn't as precise as needed for top-down-games. As a compromise, a button-control for desktop computers and a virtual analog stick for smartphones can sometimes to the trick.
+The HTML-Template also provides an Analog-Stick for mobile touch control. At first I thought that this is a little against the spirit of PICO8, but I figured that a touch-D-Pad often isn't as precise as needed for top-down-games. As a compromise, a button-control for desktop computers and a virtual analog stick for smartphones can sometimes to the trick.
 
 The HTML-Template writes values 50 to 150 to the addresses 0x5f81 (x-axis) and 0x5f82 (y-axis). The unusual values are due to the fact that only a range from 0 to 255 is supported and a clean range of 100 (-50 to 50) seems nice, you just have to subtract 100 from the value. If the addresses are 0 you know that the analog-sticks are not used.
  
@@ -78,11 +78,11 @@ A touch device is a totally different input device than a controller or keyboard
 
 *Some suggestions:*
 
-You **side-scrolling platformer** is probably best controlled with only ← and → directions, no need for ↑ and ↓. So users only have to have to worry about the horizontal position of their thumb.
+Your **side-scrolling platformer** is probably best controlled with only ← and → directions, no need for ↑ and ↓. So users only have to have to worry about the horizontal position of their thumb.
      
 Maybe your **main or pause menu** displays the menu-options below one another? Why not only display ↑ and ↓ directions?
      
-More tricky is the situation when you **need both x and y movement**. For a game that only uses straight directions without diagonals the virtual D-Pad might just work fine. But for most **top-down games** where you control a character in 8 directions I never found a mobile game with a great feeling virtual D-Pad. As a "compromise" you can use a virtual Analog-Stick on touch devices and the cursor-keys on desktop-computers. There is not much needed to make your game support both and the result can feel great.
+More tricky is the situation for **top-down games** when you need both x and y movement. For a game that only uses straight directions without diagonals the virtual D-Pad might just work fine. But for most top-down games where you control a character in 8 directions I never found a mobile game with a great feeling virtual D-Pad. A good solution sometimes is to use a virtual Analog-Stick on touch devices and the cursor-keys on desktop-computers. There is not much needed to make your game support both and the result can feel great.
 
 
 ### During development
