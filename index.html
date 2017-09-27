@@ -185,7 +185,6 @@
     margin: .5em 2em;
     text-align: center;
     color: white;
-    font-style: italic;
   }
   .sourceLink{
     font-size: .75em;
@@ -610,32 +609,78 @@
         },
         axisEnd = function() { btnAxis([]); },
         killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
+        touchfinder=function(){
+          var touchid=null;
+          return {
+            fillFromTouchStart:function(evt,target){
+              var touches, touch;
+              if(touches = evt.changedTouches){
+                for(var i=0; i<touches.length; i++){
+                  touch=touches[i];
+                  if( // check if correct element (or one of its closer parents) is target
+                    (touch.target === target) ||
+                    (touch.target.parentNode && (touch.target.parentNode === target)) ||
+                    (touch.target.parentNode.parentNode && (touch.target.parentNode.parentNode === target)) ||
+                    (touch.target.parentNode.parentNode.parentNode && (touch.target.parentNode.parentNode.parentNode === target))
+                  ) {
+                    touchid=touch.touchid;
+                    break;
+                  }
+                }
+              } else {
+                touchid=null;
+              }
+              var touch = evt.changedTouches && evt.changedTouches[0];
+              touchid = touch ? touch.touchid : null;
+              return touch;
+            },
+            findFromTouchMove:function(evt){
+              if(touchid === null) return null;
+              var touches,touch;
+              if(touches=evt.changedTouches) {
+
+                for(var i=0; i<touches.length; i++){
+                  touch=touches[i];
+                  if(touch.touchid===touchid) { return touch; }
+                }
+              }
+              return null;
+            },
+            clear:function(){ touchid = null; }
+          };
+        },
         addAnalogAxis = function(el) {
-          var stick=el.querySelector('.btn__stick');
-          el.addEventListener("touchstart", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchmove", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchend", function(evt){ killEvt(evt); resetAnalogSticks([stick]); }, false);
-          el.addEventListener("touchcancel", function(evt){ killEvt(evt); resetAnalogSticks([stick]); }, false);
+          var
+            stick=el.querySelector('.btn__stick'),
+            find_my_touch=touchfinder();
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, find_my_touch.fillFromTouchStart(evt)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); analogAxisUpdate(el, stick, find_my_touch.findFromTouchMove(evt)); }, false);
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); resetAnalogSticks([stick]); }, false);
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); resetAnalogSticks([stick]); }, false);
         },
         addXAxis = function(el) {
-          el.addEventListener("touchstart", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchmove", function(evt){ killEvt(evt); xAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
-          el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
+          var find_my_touch=touchfinder();
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); xAxisUpdate(el, find_my_touch.fillFromTouchStart(evt)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); xAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
         },
         addYAxis = function(el) {
-          el.addEventListener("touchstart", function(evt){ killEvt(evt); yAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchmove", function(evt){ killEvt(evt); yAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
-          el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
+          var find_my_touch=touchfinder();
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); yAxisUpdate(el, find_my_touch.fillFromTouchStart(evt)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); yAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
         },
         addXYAxis = function(el) {
-          el.addEventListener("touchstart", function(evt){ killEvt(evt); xyAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchmove", function(evt){ killEvt(evt); xyAxisUpdate(el, evt.changedTouches && evt.changedTouches.item(0)); }, false);
-          el.addEventListener("touchend", function(evt){ killEvt(evt); axisEnd(); }, false);
-          el.addEventListener("touchcancel", function(evt){ killEvt(evt); axisEnd(); }, false);
+          var find_my_touch=touchfinder();
+          el.addEventListener("touchstart", function(evt){ killEvt(evt); xyAxisUpdate(el, find_my_touch.fillFromTouchStart(evt)); }, false);
+          el.addEventListener("touchmove", function(evt){ killEvt(evt); xyAxisUpdate(el, find_my_touch.findFromTouchMove(evt)); }, false);
+          el.addEventListener("touchend", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
+          el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
         },
         addButton = function(el, key) {
+          var find_my_touch=touchfinder();
           el.addEventListener("touchstart", function(evt){ killEvt(evt); btnDown(key); }, false);
           el.addEventListener("touchend", function(evt){ killEvt(evt); btnUp(key); }, false);
           el.addEventListener("touchcancel", function(evt){ killEvt(evt); btnUp(key); }, false);
