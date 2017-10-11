@@ -52,7 +52,7 @@ If you don't need this, simply set your preferred buttonset and never change it 
 
 The HTML-Template also provides an Analog-Stick for mobile touch control. At first I thought that this is a little against the spirit of PICO8, but I figured that a touch-D-Pad often isn't as precise as needed for top-down-games. As a compromise, a button-control for desktop computers and a virtual analog stick for smartphones can sometimes to the trick.
 
-The HTML-Template writes values 50 to 150 to the addresses 0x5f81 (x-axis) and 0x5f82 (y-axis). The unusual values are due to the fact that only a range from 0 to 255 is supported and a clean range of 100 (-50 to 50) seems nice, you just have to subtract 100 from the value. If the addresses are 0 you know that the analog-sticks are not used.
+The HTML-Template writes values 50 to 150 to the addresses 0x5f81 (x-axis) and 0x5f82 (y-axis). The unusual values are due to the fact that only a range from 0 to 255 is supported and a clean range of 100 (-50 to 50) seems nice, you just have to subtract 100 from the value. If the values at these addresses are 0 you know that the analog-stick is not used.
  
 In your PICO8 game you can get each axis value from -50 to 50 with:
 
