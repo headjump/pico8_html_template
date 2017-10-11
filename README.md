@@ -70,7 +70,7 @@ if(btn(1))then speed_x = 10 end   -- .. this also ensures that the game can stil
 ```
 
 
-## Tipps
+## Tips
 
 ### Which button-layouts work best?
 
@@ -92,7 +92,7 @@ If your game is still under heavy development and you frequently update it, you 
 To check the game locally in your browser while you are still developing, it is usually enough to append a (changing) parameter to the url to force the browser to load your changes (and not load them from cache). E.g `file:///C:/Users/.../pico8_html_template/index.html?1` to `?2` and so on.
 
 
-## iOS Tipps/Problems
+## iOS Tips/Problems
 
 Current iOS unfortunately reloads the page when used as webapp everytime you switch back to the the webapp from another app (while multitasking).
 
