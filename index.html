@@ -616,16 +616,19 @@
                 touches, touch,
                 toucharea = el.getBoundingClientRect();
 
+              console.log(toucharea.left, toucharea.right);
+
               if(touches = evt.changedTouches){
                 for(var i=0; i<touches.length; i++){
                   touch=touches[i];
-                  if(
+                  console.log(touch.clientX);
+                  if( // is correct touchpoint?
                     (touch.clientX > toucharea.left - 10) &&
                     (touch.clientX < toucharea.right + 10) &&
                     (touch.clientY > toucharea.top - 10) &&
                     (touch.clientY < toucharea.bottom + 10)
                   ) {
-                    touchid=touch.touchid;
+                    touchid=touch.identifier;
                     return touch;
                   }
                 }
@@ -640,7 +643,7 @@
 
                 for(var i=0; i<touches.length; i++){
                   touch=touches[i];
-                  if(touch.touchid===touchid) { return touch; }
+                  if(touch.identifier===touchid) { return touch; }
                 }
               }
               return null;
@@ -680,6 +683,7 @@
         },
         addButton = function(el, key) {
           el.addEventListener("touchstart", function(evt){ killEvt(evt); btnDown(key); }, false);
+          el.addEventListener("touchmove", killEvt, false);
           el.addEventListener("touchend", function(evt){ killEvt(evt); btnUp(key); }, false);
           el.addEventListener("touchcancel", function(evt){ killEvt(evt); btnUp(key); }, false);
         };
