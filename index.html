@@ -181,7 +181,6 @@
 
 <style>
   .addToHomescreen__hint {
-    font-style: italic;
     font-size: .75em;
     margin: .5em 2em;
     text-align: center;
@@ -608,20 +607,23 @@
           setAnalogAxis(Math.floor(x_val/(.5-x_border)*50+100) , Math.floor(y_val/(.5-y_border)*50+100));
         },
         axisEnd = function() { btnAxis([]); },
-        killEvt = function(evt) { evt.preventDefault(); evt.stopImmediatePropagation(); },
+        killEvt = function(evt) { evt.preventDefault(); evt.stopPropagation(); },
         touchfinder=function(){
           var touchid=null;
           return {
             fillFromTouchStart:function(evt,target){
-              var touches, touch;
+              var
+                touches, touch,
+                toucharea = target.getBoundingClientRect();
+
               if(touches = evt.changedTouches){
                 for(var i=0; i<touches.length; i++){
                   touch=touches[i];
-                  if( // check if correct element (or one of its closer parents) is target
-                    (touch.target === target) ||
-                    (touch.target.parentNode && (touch.target.parentNode === target)) ||
-                    (touch.target.parentNode.parentNode && (touch.target.parentNode.parentNode === target)) ||
-                    (touch.target.parentNode.parentNode.parentNode && (touch.target.parentNode.parentNode.parentNode === target))
+                  if(
+                    (touch.clientX > toucharea.left - 10) &&
+                    (touch.clientX < toucharea.righ + 10) &&
+                    (touch.clientY > toucharea.top - 10) &&
+                    (touch.clientY < toucharea.bottom + 10)
                   ) {
                     touchid=touch.touchid;
                     return touch;
@@ -677,7 +679,6 @@
           el.addEventListener("touchcancel", function(evt){ find_my_touch.clear(); killEvt(evt); axisEnd(); }, false);
         },
         addButton = function(el, key) {
-          var find_my_touch=touchfinder();
           el.addEventListener("touchstart", function(evt){ killEvt(evt); btnDown(key); }, false);
           el.addEventListener("touchend", function(evt){ killEvt(evt); btnUp(key); }, false);
           el.addEventListener("touchcancel", function(evt){ killEvt(evt); btnUp(key); }, false);
