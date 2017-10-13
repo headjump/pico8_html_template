@@ -611,17 +611,17 @@
         touchfinder=function(){
           var touchid=null;
           return {
-            fillFromTouchStart:function(evt,target){
+            fillFromTouchStart:function(evt,el){
               var
                 touches, touch,
-                toucharea = target.getBoundingClientRect();
+                toucharea = el.getBoundingClientRect();
 
               if(touches = evt.changedTouches){
                 for(var i=0; i<touches.length; i++){
                   touch=touches[i];
                   if(
                     (touch.clientX > toucharea.left - 10) &&
-                    (touch.clientX < toucharea.righ + 10) &&
+                    (touch.clientX < toucharea.right + 10) &&
                     (touch.clientY > toucharea.top - 10) &&
                     (touch.clientY < toucharea.bottom + 10)
                   ) {
