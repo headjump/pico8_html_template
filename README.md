@@ -99,7 +99,7 @@ Current iOS unfortunately reloads the page when used as webapp everytime you swi
 This means, your PICO8 game restarts everytime you switch back to the app. The only workaround at the moment is to save and restore the players progress within the game. At minimum you should save the current level number and accumulated score and restore it on gamestart (or give the player the option to continue the game).
 
 
-## Easily host yout own game on [Github-Pages](https://pages.github.com/)
+## Easily host your own game on [Github-Pages](https://pages.github.com/)
 
 If you clone this repo, you can directly push/merge the master branch to the gh-pages branch, it will work for Github-Pages out of the box. Make sure to update the og:image URL to your URL!
 
